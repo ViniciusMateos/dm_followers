@@ -36,15 +36,19 @@ quem é mais novo que o salvo. Quem já recebeu DM nunca recebe de novo (`state.
 `{username}` vira o nick do destinatário. Suporta **spintax** `{a|b|c}` (escolhe um
 aleatório) pra variar o texto e reduzir flag de spam. **Varie bastante.**
 
-## Limites — `config.py` (bem conservadores)
-| Parâmetro | Padrão |
-|-----------|--------|
-| `MAX_DMS_DIA` | 25 |
-| `MAX_DMS_HORA` | 8 |
-| `MAX_DMS_POR_RUN` | 15 |
-| `DELAY_DM` | 40–100 s |
-| `PAUSA_LONGA` | 2–5 min (a cada 6 DMs) |
-| `ACTIVE_HOURS` | 9–23 |
+## Limites — `config.py`
+| Parâmetro | Padrão | O quê |
+|-----------|--------|-------|
+| `MAX_DMS_DIA` | 0 | 0 = sem cap diário |
+| `MAX_DMS_HORA` | 0 | 0 = sem cap horário |
+| `MAX_DMS_POR_RUN` | 0 | 0 = manda pra todos os novos de uma vez |
+| `DELAY_DM` | 5–20 s | pausa entre uma pessoa e outra |
+| `PAUSA_LONGA_CADA` | 0 | 0 = sem pausa longa |
+| `ACTIVE_HOURS` | 9–23 | só roda em horário humano |
+| `COMECAR_DE` | — | 1ª run: de qual seguidor começar |
+
+> Caps de volume desligados por padrão (lista pequena). O **kill-switch** continua
+> sendo a proteção: para no bloqueio real. Suba/ligue os caps se for escalar.
 
 Kill-switch: qualquer bloqueio (`feedback_required`/`spam`/429/HTML) **para o run** e
 imprime o saldo (enviadas / puladas). Erro detalhado vai pra `output/logs/`.
