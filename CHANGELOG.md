@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.1] — 2026-06-28
+
+### Modificado
+- update: caps de volume desligados por padrão (`MAX_DMS_DIA`/`HORA`/`POR_RUN` = 0) — manda pra todos os novos de uma vez; delays, janela e kill-switch seguem ligados
+
+### Documentação
+- docs: tabela de limites do README atualizada (caps desligados, delays atuais)
+
 ## [1.0.0] — 2026-06-26
 
 ### Adicionado
