@@ -153,7 +153,8 @@ def run(dry=False, start_from=None, start_oldest=False, debug=False, ignorar_jan
                 log.info("Primeira run: começando a partir de @%s (config COMECAR_DE).", start_from)
 
             candidatos = escolher_candidatos(novos, state, start_from, start_oldest)
-            limite = config.MAX_DMS_POR_RUN if config.APLICAR_CAPS else len(candidatos)
+            # MAX_DMS_POR_RUN = 0 (ou caps off) → manda pra todos os novos
+            limite = (config.MAX_DMS_POR_RUN if config.APLICAR_CAPS else 0) or len(candidatos)
             candidatos = candidatos[:limite]
             if not candidatos:
                 log.info("Ainda não tem novos seguidores pra mandar DM. 👋")

@@ -188,9 +188,9 @@ class Guard:
     def pode_enviar(self):
         if not config.APLICAR_CAPS:
             return
-        if self.state.dms_ultimo_dia() + self._dry_extra >= config.MAX_DMS_DIA:
+        if config.MAX_DMS_DIA and self.state.dms_ultimo_dia() + self._dry_extra >= config.MAX_DMS_DIA:
             raise LimiteAtingido(f"Cap diário atingido ({config.MAX_DMS_DIA}).")
-        if self.state.dms_ultima_hora() + self._dry_extra >= config.MAX_DMS_HORA:
+        if config.MAX_DMS_HORA and self.state.dms_ultima_hora() + self._dry_extra >= config.MAX_DMS_HORA:
             raise LimiteAtingido(f"Cap horário atingido ({config.MAX_DMS_HORA}).")
 
     def pos_dm(self):

@@ -38,9 +38,9 @@ MENSAGEM = (
 # Lista pequena (<50) → caps generosos pra processar tudo numa run. O kill-switch
 # segue ligado: se o IG bloquear no meio, para na hora e salva de onde parou.
 APLICAR_CAPS = True
-MAX_DMS_DIA = 60             # teto por dia (rolling 24h)
-MAX_DMS_HORA = 60            # teto por hora
-MAX_DMS_POR_RUN = 60         # por execução
+MAX_DMS_DIA = 0             # 0 = SEM cap diário
+MAX_DMS_HORA = 0           # 0 = SEM cap horário
+MAX_DMS_POR_RUN = 0        # 0 = SEM limite por execução (manda todos os novos de uma vez)
 
 DELAY_DM = (5, 20)          # entre uma pessoa e outra
 PAUSA_LONGA_CADA = 0        # 0 = SEM pausa longa
