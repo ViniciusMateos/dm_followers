@@ -6,6 +6,8 @@ cookies/
 # saídas em runtime
 output/
 *.log
+# modos salvos (dados do usuário — defaults vivem em perfis.py)
+perfis.json
 # python
 __pycache__/
 *.pyc

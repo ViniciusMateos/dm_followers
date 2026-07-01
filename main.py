@@ -13,6 +13,11 @@ Uso:
   python main.py --start-from juliatilco  # 1ª vez pra valer (escolhe de quem começa)
   python main.py                          # próximos runs: só os novos desde o último
   python main.py --debug                  # dump do feed de atividades
+
+Modular (modos de tempo):
+  python main.py --listar-modos           # mostra os modos (padrao/agressivo/calmo)
+  python main.py --modo calmo             # roda com tempos mais lentos (recomendado p/ DM)
+  python main.py --modo agressivo --start-from fulano
 """
 import argparse
 import os
@@ -23,6 +28,7 @@ import traceback
 from datetime import datetime
 
 import config
+import perfis
 from safety import State, Guard, log, BloqueioDetectado, LimiteAtingido
 from ig import IG
 
@@ -207,14 +213,33 @@ def main():
     ap.add_argument("--start-from-oldest", action="store_true", help="manda pra todos os visíveis")
     ap.add_argument("--debug", action="store_true", help="dump do feed de atividades")
     ap.add_argument("--ignore-window", action="store_true", help="ignora janela de horário")
+    # ── modularização (modos de tempo) ──
+    ap.add_argument("--modo", metavar="NOME", default="padrao", help="modo: padrao, agressivo, calmo…")
+    ap.add_argument("--listar-modos", action="store_true", help="lista os modos salvos e sai")
     a = ap.parse_args()
 
+    if a.listar_modos:
+        for nome, p in perfis.carregar_perfis().items():
+            log.info("modo: %-12s caps=%s | dms/run=%s | delay_dm=%s | pausa_cada=%s",
+                     nome, p["aplicar_caps"], p["max_dms_por_run"],
+                     p["delay_dm"], p["pausa_longa_cada"])
+        return
     if a.import_cookies:
         modo_importar_cookies(a.import_cookies)
         return
     if a.login:
         modo_login()
         return
+
+    # aplica o MODO escolhido no config antes de rodar
+    perfil = perfis.get_perfil(a.modo)
+    if not perfil:
+        log.error("Modo '%s' não existe. Use --listar-modos.", a.modo)
+        sys.exit(2)
+    perfis.aplicar(config, perfil)
+    log.info("Modo: %s  |  delay_dm: %s  |  caps: %s", a.modo,
+             config.DELAY_DM, config.APLICAR_CAPS)
+
     try:
         run(dry=a.dry_run, start_from=a.start_from, start_oldest=a.start_from_oldest,
             debug=a.debug, ignorar_janela=a.ignore_window)
